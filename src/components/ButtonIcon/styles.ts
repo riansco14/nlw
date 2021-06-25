@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
         borderRadius: 8,
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: theme.colors.brand,
+        backgroundColor: theme.colors.primary,
     },
     iconWrapper: {
         width: 56,

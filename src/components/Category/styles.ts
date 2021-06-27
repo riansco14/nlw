@@ -37,6 +37,7 @@ export const styles = StyleSheet.create({
         backgroundColor: theme.colors.primary,
         alignSelf: 'flex-end',
         marginRight: 7,
+        borderRadius: 3,
     },
     title: {
         fontFamily: theme.fonts.title500,

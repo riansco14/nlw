@@ -10,7 +10,7 @@ interface ButtonIconProps extends RectButtonProps {
 
 export function ButtonAdd({...rest}: ButtonIconProps) {
     return (
-        <RectButton {...rest} style={styles.container}>
+        <RectButton onPress={()=>{console.log("buttonAdd")}} {...rest} style={styles.container}>
             <MaterialCommunityIcons
                 name="plus"
                 color={theme.colors.heading}

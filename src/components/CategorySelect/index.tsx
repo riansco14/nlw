@@ -7,8 +7,9 @@ import { Category } from '../Category'
 
 interface CategorySelectProps{
     categorySelected: string
+    setCategorySelected: (categoryId: string) => void
 }
-export function CategorySelect({categorySelected}:CategorySelectProps) {
+export function CategorySelect({categorySelected, setCategorySelected}:CategorySelectProps) {
     return (
         <ScrollView
             horizontal
@@ -22,7 +23,8 @@ export function CategorySelect({categorySelected}:CategorySelectProps) {
                         key={categoria.id}
                         title={categoria.title}
                         icon={ categoria.icon}
-                        checked = { categoria.id === categorySelected}
+                        checked={categoria.id === categorySelected}
+                        onPress={()=>setCategorySelected(categoria.id)}
                     ></Category>
                 ))
             }

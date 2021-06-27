@@ -8,6 +8,7 @@ import { StatusBar, StyleSheet } from 'react-native'
 
 import { Background } from './src/components/Background';
 import { SignIn } from './src/screens/SignIn'
+import { Routes } from './src/routes/'
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -25,7 +26,7 @@ export default function App() {
         backgroundColor="transparent"
         translucent
       />
-      <SignIn />
+      <Routes />
     </Background>
   )
 }

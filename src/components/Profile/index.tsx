@@ -3,7 +3,7 @@ import { View, Text } from 'react-native'
 import { styles } from './styles'
 
 import {Avatar} from '../Avatar'
-
+import { ButtonAdd } from '../ButtonAdd'
 export function Profile() {
     return (
         <View style={styles.container}> 
@@ -21,8 +21,6 @@ export function Profile() {
                     Hoje é dia de vitoria
                 </Text>
             </View>
-
-
         </View>
     )
 }

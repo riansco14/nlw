@@ -12,5 +12,13 @@ export const styles = StyleSheet.create({
         justifyContent: 'space-between',
         marginTop: 26 + getStatusBarHeight(),
         marginBottom: 42
+    },
+    content: {
+        marginTop: 42
+    },
+    flatlistMatches: {
+        marginTop: 24,
+        marginLeft:24
     }
+
 })

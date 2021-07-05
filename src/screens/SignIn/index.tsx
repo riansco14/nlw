@@ -6,6 +6,7 @@ import IlustrationImg from '../../assets/illustration.png'
 
 import { ButtonIcon } from '../../components/ButtonIcon'
 import { useNavigation } from '@react-navigation/native'
+import { Background } from '../../components/Background'
 
 export function SignIn() {
     const navigation = useNavigation()
@@ -15,6 +16,7 @@ export function SignIn() {
     }
 
     return (
+        <Background>
         <View style={styles.container}>
             <Image
                 source={IlustrationImg}
@@ -39,6 +41,7 @@ export function SignIn() {
                     onPress={handleSignIn}
                 />
             </View>
-        </View >
+            </View >
+            </Background>
     )
 }

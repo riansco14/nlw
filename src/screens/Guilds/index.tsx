@@ -6,7 +6,7 @@ import { Guild } from '../../components/Guild'
 import { ListDivider } from '../../components/ListDivider'
 import { styles } from './styles'
 
-interface Props extends TextInputProps{
+interface Props extends TextInputProps {
     handleGuildSelected: (guildSelected: Guild) => void
 }
 
@@ -22,6 +22,31 @@ export function Guilds({ handleGuildSelected, ...rest }: Props) {
         name: 'Lendários',
         icon: null,
         owner: false
+    },
+    {
+        id: '3',
+        name: 'Lendários',
+        icon: null,
+        owner: false
+    }
+        ,
+    {
+        id: '4',
+        name: 'Lendários',
+        icon: null,
+        owner: false
+    },
+    {
+        id: '5',
+        name: 'Lendários',
+        icon: null,
+        owner: false
+    },
+    {
+        id: '6',
+        name: 'Lendários',
+        icon: null,
+        owner: false
     }
     ]
 
@@ -34,7 +59,9 @@ export function Guilds({ handleGuildSelected, ...rest }: Props) {
                 renderItem={({ item }) => <Guild
                     data={item}
                     onPress={() => handleGuildSelected(item)} />}
-                ItemSeparatorComponent={() => <ListDivider />}
+                ItemSeparatorComponent={() => <ListDivider isCentered />}
+                contentContainerStyle={{ paddingBottom: 68, paddingTop: 20 }}
+                ListHeaderComponent={() => <ListDivider isCentered />}
                 style={styles.guilds}
             />
         </View>

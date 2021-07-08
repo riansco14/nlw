@@ -6,7 +6,7 @@ import { theme } from "../../global/theme";
 export const styles = StyleSheet.create({
     container: {
         width: "100%",
-        height: 84,
+        height: 94,
         paddingTop: getStatusBarHeight(),
         flexDirection: 'row',
         alignItems: 'center',

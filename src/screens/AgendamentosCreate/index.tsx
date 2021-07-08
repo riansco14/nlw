@@ -39,8 +39,8 @@ const SelectServer = ({ guild, ...rest }: SelectServerProps) => {
 
                 }
                 <View style={stylesServer.labelContainer}>
-                    
-                    <Text style={stylesServer.title}>{guild?.name ? guild.name :'Selecione um servidor'}</Text>
+
+                    <Text style={stylesServer.title}>{guild?.name ? guild.name : 'Selecione um servidor'}</Text>
                 </View>
                 <Feather style={stylesServer.icon} color={theme.colors.heading} size={18} name="chevron-right" />
             </View>
@@ -95,6 +95,10 @@ export function AgendamentosCreate({ children }: Props) {
         setOpenModalGuilds(true)
     }
 
+    function handleCloseGuilds() {
+        setOpenModalGuilds(false)
+    }
+
     function handleGuildSelect(guildSelect: Guild) {
         setGuild(guildSelect)
         setOpenModalGuilds(false)
@@ -118,14 +122,7 @@ export function AgendamentosCreate({ children }: Props) {
     const [categorySelected, setCategorySelected] = useState('')
 
     function handleCategory(categoryId: string) {
-        console.log("categoryId")
-        if (categoryId === categorySelected)
-            setCategorySelected('')
-        else
-            setCategorySelected(categoryId)
-
-        console.log(categoryId)
-
+        setCategorySelected('')
     }
 
     function handleAgendar() {
@@ -149,14 +146,14 @@ export function AgendamentosCreate({ children }: Props) {
                             Categoria
                         </Text>
 
-                        <CategorySelect categorySelected={categorySelected} setCategorySelected={setCategorySelected} />
+                        <CategorySelect categorySelected={categorySelected} setCategorySelected={handleCategory} />
                         <View style={styles.form}>
 
                             <SelectServer guild={guild} onPress={handleOpenGuilds} />
                             <View style={styles.fieldData}>
                                 <View>
                                     <View>
-                                        <Text style={styles.titleData}>Dia e mês</Text>
+                                        <Text style={[styles.titleData, { marginBottom: 8 }]}>Dia e mês</Text>
                                     </View>
                                     <View style={styles.column}>
                                         <SmallInput maxLength={2} />
@@ -167,7 +164,7 @@ export function AgendamentosCreate({ children }: Props) {
                                 </View>
                                 <View>
                                     <View>
-                                        <Text style={styles.titleData}>Hora e minuto</Text>
+                                        <Text style={[styles.titleData, { marginBottom: 8 }]}>Hora e minuto</Text>
                                     </View>
                                     <View style={styles.column}>
                                         <SmallInput maxLength={2} />
@@ -193,7 +190,7 @@ export function AgendamentosCreate({ children }: Props) {
                     </View>
                 </Background>
             </ScrollView>
-            <ModalView visible={openModalGuilds}>
+            <ModalView visible={openModalGuilds} clodeModal={handleCloseGuilds}>
                 <Guilds handleGuildSelected={handleGuildSelect} />
             </ModalView>
         </KeyboardAvoidingView >

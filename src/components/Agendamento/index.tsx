@@ -11,6 +11,7 @@ import CalendarSvg from '../../assets/calendar.svg'
 
 import { theme } from '../../global/theme'
 import { categories } from '../../utils/categories'
+import { LinearGradient } from 'expo-linear-gradient'
 
 
 export interface GuildProps {
@@ -34,12 +35,18 @@ interface Props extends RectButtonProps {
 
 
 export function Agendamento({ data, ...rest }: Props) {
-    const { primary, on } = theme.colors
+    const { primary, on, secondary50, secondary70 } = theme.colors
     const categoryFiltered = categories.filter(item => item.id === data.category)[0]
     return (
         <RectButton {...rest}>
             <View style={styles.container}>
+                <LinearGradient
+                    style={styles.guildIconContainer}
+                    colors={[secondary50, secondary70]}
+                >
+
                 <GuildIcon />
+                </LinearGradient>
 
                 <View style={styles.content}>
                     <View style={styles.header}>

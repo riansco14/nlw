@@ -67,20 +67,19 @@ export function Home() {
 
     return (
         <Background>
-        <View style={styles.container}>
-            <View style={styles.header}>
-                <Profile />
-                <ButtonAdd onPress={handleAgendamentosCreate} />
-            </View>
+            <View style={styles.container}>
+                <View style={styles.header}>
+                    <Profile />
+                    <ButtonAdd onPress={handleAgendamentosCreate} />
+                </View>
 
-            <View>
-                <CategorySelect
-                    categorySelected={categorySelected}
-                    setCategorySelected={handleCategory}
-                />
-            </View>
+                <View>
+                    <CategorySelect
+                        categorySelected={categorySelected}
+                        setCategorySelected={handleCategory}
+                    />
+                </View>
 
-            <View style={styles.content}>
                 <ListHeader
                     title="Partidas agendadas"
                     subtitle="Total 6"
@@ -90,11 +89,11 @@ export function Home() {
                     data={agendamentos}
                     keyExtractor={item => item.id}
                     renderItem={({ item }) => <Agendamento onPress={handleAgendamentoDetalhes} data={item} />}
+                    contentContainerStyle={{paddingBottom: 68}}
                     ItemSeparatorComponent={() => <ListDivider />}
                     style={styles.flatlistMatches}
                 />
             </View>
-            </View>
-            </Background>
+        </Background>
     )
 }

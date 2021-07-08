@@ -9,6 +9,8 @@ export const styles = StyleSheet.create({
         color: theme.colors.heading,
         borderRadius: 8,
         fontSize: 13,
-        textAlign: 'center'
+        textAlignVertical:'top',
+        paddingLeft: 16,
+        paddingTop: 16,
     }
 })

@@ -11,7 +11,6 @@ export const styles = StyleSheet.create({
         width: '100%',
         height: 234,
         justifyContent: 'flex-end',
-        marginBottom: 30
 
     },
     bannerContent: {
@@ -28,6 +27,7 @@ export const styles = StyleSheet.create({
     subtitle: {
         fontFamily: theme.fonts.text400,
         fontSize: 13,
+        lineHeight:21,
         color: theme.colors.heading
 
     },

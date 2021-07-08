@@ -8,6 +8,7 @@ export const styles = StyleSheet.create({
         backgroundColor: theme.colors.secondary40,
         color: theme.colors.heading,
         borderRadius: 8,
-        fontSize: 13
+        fontSize: 13,
+        textAlign: 'center'
     }
 })

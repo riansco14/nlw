@@ -5,9 +5,8 @@ export const styles = StyleSheet.create({
         flex: 1
     },
     image: {
-        width: 64,
-        height: 64,
+        width: 62,
+        height: 66,
         borderRadius: 8,
-        marginRight: 20
     }
 })

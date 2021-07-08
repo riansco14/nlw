@@ -37,7 +37,7 @@ export function Agendamento({ data, ...rest }: Props) {
     const { primary, on } = theme.colors
     const categoryFiltered = categories.filter(item => item.id === data.category)[0]
     return (
-        <RectButton>
+        <RectButton {...rest}>
             <View style={styles.container}>
                 <GuildIcon />
 

@@ -23,17 +23,11 @@ export const styles = StyleSheet.create({
         height: 18,
 
     },
-    content: {
-    },
     title: {
         flex: 1,
         color: theme.colors.heading,
         fontSize: 15,
         textAlign: 'center'
-
-
     },
-    subtitle: {
-    }
 
 })

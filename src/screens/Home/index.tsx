@@ -11,8 +11,11 @@ import { Agendamento } from '../../components/Agendamento'
 import { styles } from './styles'
 import { ListDivider } from '../../components/ListDivider'
 import { Background } from '../../components/Background'
+import { useNavigation } from '@react-navigation/native'
 
 export function Home() {
+    const navigation = useNavigation()
+
     const [categorySelected, setCategorySelected] = useState('')
 
     const agendamentos = [
@@ -52,12 +55,22 @@ export function Home() {
         console.log(categoryId)
 
     }
+
+    function handleAgendamentoDetalhes() {
+        console.log("Chegou");
+        navigation.navigate('AgendamentosDetails')
+    }
+
+    function handleAgendamentosCreate() {
+        navigation.navigate("AgendamentosCreate")
+    }
+
     return (
         <Background>
         <View style={styles.container}>
             <View style={styles.header}>
                 <Profile />
-                <ButtonAdd />
+                <ButtonAdd onPress={handleAgendamentosCreate} />
             </View>
 
             <View>
@@ -76,7 +89,7 @@ export function Home() {
                 <FlatList
                     data={agendamentos}
                     keyExtractor={item => item.id}
-                    renderItem={({ item }) => <Agendamento data={item} />}
+                    renderItem={({ item }) => <Agendamento onPress={handleAgendamentoDetalhes} data={item} />}
                     ItemSeparatorComponent={() => <ListDivider />}
                     style={styles.flatlistMatches}
                 />

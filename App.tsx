@@ -7,7 +7,7 @@ import { Rajdhani_500Medium, Rajdhani_700Bold } from '@expo-google-fonts/rajdhan
 import { StatusBar, StyleSheet } from 'react-native'
 
 import { Background } from './src/components/Background';
-import { SignIn } from './src/screens/SignIn'
+import { AuthContext, AuthProvider } from './src/hooks/auth'
 import { Routes } from './src/routes/'
 
 export default function App() {
@@ -26,7 +26,10 @@ export default function App() {
         backgroundColor="transparent"
         translucent
       />
-      <Routes />
+      <AuthProvider>
+        <Routes />
+      </AuthProvider>
+
     </Background>
   )
 }

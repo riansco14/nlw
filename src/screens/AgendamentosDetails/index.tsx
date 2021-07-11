@@ -69,7 +69,7 @@ export function AgendamentosDetails({ children }: Props) {
                         data={item}
                     />)
                     }
-                    ItemSeparatorComponent={() => <ListDivider />}
+                    ItemSeparatorComponent={() => <ListDivider isCentered />}
                     style={styles.members}
                 />
 

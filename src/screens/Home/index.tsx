@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { useState } from 'react'
 import { View, FlatList } from 'react-native'
 
@@ -6,59 +6,55 @@ import { Profile } from '../../components/Profile'
 import { ButtonAdd } from '../../components/ButtonAdd'
 import { CategorySelect } from '../../components/CategorySelect'
 import { ListHeader } from '../../components/ListHeader'
-import { Agendamento } from '../../components/Agendamento'
+import { Agendamento, AgendamentoProps } from '../../components/Agendamento'
 
 import { styles } from './styles'
 import { ListDivider } from '../../components/ListDivider'
 import { Background } from '../../components/Background'
-import { useNavigation } from '@react-navigation/native'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { COLLECTION_AGENDAMENTOS, COLLECTION_USER } from '../../configs/database'
+import { Load } from '../../components/Load'
 
 export function Home() {
     const navigation = useNavigation()
 
+    const [agendamentos, setAgendamentos] = useState<AgendamentoProps[]>([])
     const [categorySelected, setCategorySelected] = useState('')
+    const [loading, setLoading] = useState(false)
 
-    const agendamentos = [
-        {
-            id: '1',
-            guild: {
-                id: '1',
-                name: 'Lendarios',
-                icon: null,
-                owner: true
-            },
-            category: '1',
-            date: '22/06 às 20:40h',
-            description: 'É hoje que vamos chegar ao challeger sem perder nenhuma partida'
-        },
-        {
-            id: '2',
-            guild: {
-                id: '1',
-                name: 'Lendarios',
-                icon: null,
-                owner: false
-            },
-            category: '1',
-            date: '22/06 às 20:40h',
-            description: 'É hoje que vamos chegar ao challeger sem perder nenhuma partida'
+    async function loadAgendamentos() {
+        
+        setLoading(true)
+        const response = await AsyncStorage.getItem(COLLECTION_AGENDAMENTOS)
+        
+        
+        const storage: AgendamentoProps[] = response ? JSON.parse(response) : []
+
+        if (categorySelected.length>0) {
+            setAgendamentos(storage.filter((item) => item.category == categorySelected))
+        } else {
+            setAgendamentos(storage)
+        
         }
-    ]
-
-    function handleCategory(categoryId: string) {
-        console.log("categoryId")
-        if (categoryId === categorySelected)
-            setCategorySelected('')
-        else
-            setCategorySelected(categoryId)
-
-        console.log(categoryId)
+        setLoading(false)
 
     }
 
-    function handleAgendamentoDetalhes() {
-        console.log("Chegou");
-        navigation.navigate('AgendamentosDetails')
+    useFocusEffect(useCallback(
+        () => {
+            loadAgendamentos()
+        },
+        [categorySelected],
+    ))
+
+    function handleCategory(categoryId: string) {
+        categoryId === categorySelected ? setCategorySelected('') : setCategorySelected(categoryId);
+        
+    }
+
+    function handleAgendamentoDetalhes(guildSelected: AgendamentoProps) {
+        navigation.navigate('AgendamentosDetails', {guildSelected: guildSelected})
     }
 
     function handleAgendamentosCreate() {
@@ -79,20 +75,21 @@ export function Home() {
                         setCategorySelected={handleCategory}
                     />
                 </View>
+                {loading ? <Load /> : <>
+                    <ListHeader
+                        title="Partidas agendadas"
+                        subtitle={`Total ${agendamentos.length}`}
+                    />
+                    <FlatList
+                        data={agendamentos}
+                        keyExtractor={item => item.id}
+                        renderItem={({ item }) => <Agendamento onPress={()=>handleAgendamentoDetalhes(item)} data={item} />}
+                        contentContainerStyle={{ paddingBottom: 68 }}
+                        ItemSeparatorComponent={() => <ListDivider />}
+                        style={styles.flatlistMatches}
+                    />
+                </>}
 
-                <ListHeader
-                    title="Partidas agendadas"
-                    subtitle="Total 6"
-                />
-
-                <FlatList
-                    data={agendamentos}
-                    keyExtractor={item => item.id}
-                    renderItem={({ item }) => <Agendamento onPress={handleAgendamentoDetalhes} data={item} />}
-                    contentContainerStyle={{paddingBottom: 68}}
-                    ItemSeparatorComponent={() => <ListDivider />}
-                    style={styles.flatlistMatches}
-                />
             </View>
         </Background>
     )

@@ -36,7 +36,8 @@ interface Props extends RectButtonProps {
 
 export function Agendamento({ data, ...rest }: Props) {
     const { primary, on, secondary50, secondary70 } = theme.colors
-    const categoryFiltered = categories.filter(item => item.id === data.category)[0]
+    const categoryFiltered = categories.filter(item => item.id === data.category);
+
     return (
         <RectButton {...rest}>
             <View style={styles.container}>
@@ -45,7 +46,7 @@ export function Agendamento({ data, ...rest }: Props) {
                     colors={[secondary50, secondary70]}
                 >
 
-                <GuildIcon />
+                    <GuildIcon iconId={data.guild.icon} guildId={data.guild.id} />
                 </LinearGradient>
 
                 <View style={styles.content}>

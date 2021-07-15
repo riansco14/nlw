@@ -9,7 +9,6 @@ import { styles } from './styles'
 import { theme } from '../../global/theme'
 import { Text } from 'react-native'
 import { CategorySelect } from '../../components/CategorySelect'
-import { Avatar } from '../../components/Avatar'
 import Feather from '@expo/vector-icons/Feather'
 import { GuildIcon } from '../../components/GuildIcon'
 import { SmallInput } from '../../components/SmallInput'
@@ -20,12 +19,18 @@ import { Guilds } from '../Guilds'
 import { ModalView } from '../../components/ModalView'
 import { Guild } from '../../components/Guild'
 
+import uuid from 'react-native-uuid'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { COLLECTION_AGENDAMENTOS } from '../../configs/database'
+import { AgendamentoProps, GuildProps } from '../../components/Agendamento'
+
+
 interface Props {
     children: ReactNode
 }
 
 interface SelectServerProps extends RectButtonProps {
-    guild?: Guild
+    guild?: GuildProps
 }
 
 const SelectServer = ({ guild, ...rest }: SelectServerProps) => {
@@ -35,7 +40,7 @@ const SelectServer = ({ guild, ...rest }: SelectServerProps) => {
             <View style={stylesServer.container}>
                 {
                     guild?.icon ?
-                        <GuildIcon /> : <View style={stylesServer.image} />
+                        <GuildIcon guildId={guild.id} iconId={guild.icon}  /> : <View style={stylesServer.image} />
 
                 }
                 <View style={stylesServer.labelContainer}>
@@ -87,9 +92,15 @@ const stylesServer = StyleSheet.create({
 export function AgendamentosCreate({ children }: Props) {
     const navigation = useNavigation()
     const [openModalGuilds, setOpenModalGuilds] = useState(false)
-    const [guild, setGuild] = useState<Guild>({} as Guild)
+    const [guild, setGuild] = useState<GuildProps>({} as GuildProps)
 
-    console.log(guild);
+    const [dia, setDia] = useState('')
+    const [mes, setMes] = useState('')
+    const [hora, setHora] = useState('')
+    const [minuto, setMinuto] = useState('')
+    const [descricao, setDescricao] = useState('')
+
+
 
     function handleOpenGuilds() {
         setOpenModalGuilds(true)
@@ -99,34 +110,43 @@ export function AgendamentosCreate({ children }: Props) {
         setOpenModalGuilds(false)
     }
 
-    function handleGuildSelect(guildSelect: Guild) {
+    function handleGuildSelect(guildSelect: GuildProps) {
         setGuild(guildSelect)
+        console.log('RESULTADO DISSO'+ JSON.stringify(guildSelect));
+        
         setOpenModalGuilds(false)
     }
 
-    const members = [
-        {
-            id: '1',
-            username: 'Rodrigo',
-            avatar_url: 'https://github.com/riansco14.png',
-            status: 'online'
-        },
-        {
-            id: '2',
-            username: 'Rodrigo',
-            avatar_url: 'https://github.com/riansco14.png',
-            status: 'offline'
-        },
-    ]
 
     const [categorySelected, setCategorySelected] = useState('')
 
     function handleCategory(categoryId: string) {
-        setCategorySelected('')
+        if (categoryId===categorySelected)
+            setCategorySelected('')
+        setCategorySelected(categoryId)
+        
     }
 
     function handleAgendar() {
         navigation.navigate("Guilds")
+    }
+
+    async function handleSave() {
+        const newAgendamento: AgendamentoProps = {
+            id: uuid.v4().toString(),
+            guild: guild,
+            category: categorySelected,
+            date: `${dia}/${mes} às ${hora}:${minuto}h`,
+            descricao: descricao
+        }
+        console.log(newAgendamento);
+        
+        
+        const storage = await AsyncStorage.getItem(COLLECTION_AGENDAMENTOS)
+        const agendamentos = storage ? JSON.parse(storage) : []
+        await AsyncStorage.setItem(COLLECTION_AGENDAMENTOS, JSON.stringify([...agendamentos, newAgendamento]))
+        
+        navigation.navigate('Home')
     }
 
     return (
@@ -156,9 +176,9 @@ export function AgendamentosCreate({ children }: Props) {
                                         <Text style={[styles.titleData, { marginBottom: 8 }]}>Dia e mês</Text>
                                     </View>
                                     <View style={styles.column}>
-                                        <SmallInput maxLength={2} />
+                                        <SmallInput maxLength={2} onChangeText={setDia} />
                                         <Text style={styles.divider}>/</Text>
-                                        <SmallInput maxLength={2} />
+                                        <SmallInput maxLength={2} onChangeText={setMes} />
                                     </View>
 
                                 </View>
@@ -167,9 +187,9 @@ export function AgendamentosCreate({ children }: Props) {
                                         <Text style={[styles.titleData, { marginBottom: 8 }]}>Hora e minuto</Text>
                                     </View>
                                     <View style={styles.column}>
-                                        <SmallInput maxLength={2} />
+                                        <SmallInput maxLength={2} onChangeText={setHora} />
                                         <Text style={styles.divider}>:</Text>
-                                        <SmallInput maxLength={2} />
+                                        <SmallInput maxLength={2}  onChangeText={setMinuto} />
                                     </View>
 
                                 </View>
@@ -178,11 +198,11 @@ export function AgendamentosCreate({ children }: Props) {
                                 <Text style={styles.labelDescricao}>Descrição</Text>
                                 <Text style={styles.caracteresLimit}>Max 100 caracteres</Text>
                             </View>
-                            <TextArea multiline maxLength={100} numberOfLines={5} autoCorrect={false} />
+                            <TextArea multiline maxLength={100} numberOfLines={5} autoCorrect={false} onChangeText={setDescricao} />
 
                             <View style={styles.footer}>
 
-                                <Button title="Agendar" onPress={handleAgendar}></Button>
+                                <Button title="Agendar" onPress={handleSave} />
                             </View>
                         </View>
 

@@ -22,7 +22,7 @@ interface GuildProps extends TouchableOpacityProps {
 export function Guild({ data, ...rest }: GuildProps) {
     return (
         <TouchableOpacity style={styles.container} {...rest}>
-            <GuildIcon />
+            <GuildIcon guildId={data.id} iconId={data.icon} />
             <View style={styles.content}>
                 <View>
                     <Text style={styles.title}>

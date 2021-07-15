@@ -1,55 +1,41 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useEffect } from 'react'
 import { FlatList } from 'react-native'
 import { View } from 'react-native'
 import { TextInput, TextInputProps } from 'react-native'
+import { GuildProps } from '../../components/Agendamento'
 import { Guild } from '../../components/Guild'
 import { ListDivider } from '../../components/ListDivider'
+import { Load } from '../../components/Load'
+import { api } from '../../services/api'
 import { styles } from './styles'
 
 interface Props extends TextInputProps {
-    handleGuildSelected: (guildSelected: Guild) => void
+    handleGuildSelected: (guildSelected: GuildProps) => void
 }
 
 export function Guilds({ handleGuildSelected, ...rest }: Props) {
-    const guilds = [{
-        id: '1',
-        name: 'Lendários',
-        icon: null,
-        owner: true
-    },
-    {
-        id: '2',
-        name: 'Lendários',
-        icon: null,
-        owner: false
-    },
-    {
-        id: '3',
-        name: 'Lendários',
-        icon: null,
-        owner: false
-    }
-        ,
-    {
-        id: '4',
-        name: 'Lendários',
-        icon: null,
-        owner: false
-    },
-    {
-        id: '5',
-        name: 'Lendários',
-        icon: null,
-        owner: false
-    },
-    {
-        id: '6',
-        name: 'Lendários',
-        icon: null,
-        owner: false
-    }
-    ]
+    const [guilds, setGuilds] = useState<GuildProps[]>([])
+    const [loading, setLoading] = useState(true)
 
+
+
+
+    async function fetchGuilds() {
+        const response = await api.get("/users/@me/guilds")
+
+        setGuilds(response.data)
+        setLoading(false)
+        
+    }
+
+    useEffect(() => {
+        fetchGuilds()
+    }, [])
+
+
+    if (loading)
+        return (<Load />)
 
     return (
         <View style={styles.container}>
